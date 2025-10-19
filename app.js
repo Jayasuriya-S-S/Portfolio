@@ -1,17 +1,17 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = 3000;
 
-app.use(express.static(path.join(__dirname, "public")));
-app.set("views", path.join(__dirname, "views"));
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "html");
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/", (req, res) => res.render("index"));
-app.get("/about", (req, res) => res.render("about"));
-app.get("/skills", (req, res) => res.render("skills"));
-app.get("/projects", (req, res) => res.render("projects"));
-app.get("/contact", (req, res) => res.render("contact"));
+// Send the index.html file for any other requests
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
-app.listen(PORT, () => console.log(`Portfolio running on port ${PORT}`));
+app.listen(port, () => {
+  console.log(`Portfolio app listening at http://localhost:${port}`);
+});
