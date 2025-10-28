@@ -8,7 +8,7 @@ pipeline {
         }
         stage('Docker Build & Push') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub-token', variable: 'TOKEN')]) {
+                withCredentials([string(credentialsId: 'Dcokerhub', variable: 'TOKEN')]) {
                     sh '''
                     docker build -t jayasuriya/portfolio:latest .
                     echo "$TOKEN" | docker login -u jayasuriya --password-stdin
