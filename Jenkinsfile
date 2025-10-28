@@ -5,11 +5,10 @@ pipeline {
         IMAGE = "jayasuriya27/portfolio:latest"
         CRED = "Dcokerhub"
         EC2_USER = "ubuntu"
-        EC2_IP = "13.200.210.146"  // update if changed
+        EC2_IP = "13.200.210.146"
     }
 
     stages {
-
         stage('Checkout Code') {
             steps {
                 git branch: 'main', url: 'https://github.com/Jayasuriya-S-S/Portfolio.git'
@@ -24,10 +23,10 @@ pipeline {
 
         stage('Docker Build & Push') {
             steps {
-                withCredentials([string(credentialsId: CRED, variable: 'TOKEN')]) {
+                withCredentials([usernamePassword(credentialsId: CRED, usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh '''
                     docker build -t $IMAGE .
-                    echo "$TOKEN" | docker login -u "jayasuriya27" --password-stdin
+                    echo "$PASS" | docker login -u "$USER" --password-stdin
                     docker push $IMAGE
                     '''
                 }
