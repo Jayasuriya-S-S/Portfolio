@@ -33,18 +33,28 @@ pipeline {
             }
         }
 
-       stage('Deploy to EC2') {
-       steps {
-        withCredentials([sshUserPrivateKey(credentialsId: 'ec2-key', keyFileVariable: 'KEY_FILE', usernameVariable: 'SSH_USER')]) {
-            sh '''
-            ssh -i $KEY_FILE -o StrictHostKeyChecking=no $SSH_USER@13.200.210.146 "
-                docker pull jaiswathi1234/portfolio-app &&
-                docker stop portfolio || true &&
-                docker rm portfolio || true &&
-                docker run -d -p 80:3000 --name portfolio jaiswathi1234/portfolio-app
-            "
-            '''
-          }
-       }
+        stage('Deploy to EC2') {
+            steps {
+                withCredentials([sshUserPrivateKey(credentialsId: 'ec2-key', keyFileVariable: 'KEY_FILE', usernameVariable: 'SSH_USER')]) {
+                    sh '''
+                    ssh -i $KEY_FILE -o StrictHostKeyChecking=no $SSH_USER@13.200.210.146 "
+                        docker pull jaiswathi1234/portfolio-app &&
+                        docker stop portfolio || true &&
+                        docker rm portfolio || true &&
+                        docker run -d -p 80:3000 --name portfolio jaiswathi1234/portfolio-app
+                    "
+                    '''
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment successful!"
+        }
+        failure {
+            echo " Pipeline failed!"
+        }
     }
 }
