@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE = "jayasuriya27/portfolio:latest"
+        IMAGE = "jaiswathi1234/portfolio-app"
         CRED = "Dcokerhub"
         EC2_USER = "ubuntu"
         EC2_IP = "13.200.210.146"
