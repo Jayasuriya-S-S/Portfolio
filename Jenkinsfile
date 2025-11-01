@@ -37,12 +37,12 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-key', keyFileVariable: 'KEY_FILE', usernameVariable: 'SSH_USER')]) {
                     sh '''
-                    ssh -i $KEY_FILE -o StrictHostKeyChecking=no $SSH_USER@43.205.121.208"
+                    ssh -i "$KEY_FILE" -o StrictHostKeyChecking=no "$SSH_USER@$EC2_IP" '
                         docker pull jaiswathi1234/portfolio-app &&
                         docker stop portfolio || true &&
                         docker rm portfolio || true &&
                         docker run -d -p 80:3000 --name portfolio jaiswathi1234/portfolio-app
-                    "
+                    '
                     '''
                 }
             }
@@ -54,7 +54,7 @@ pipeline {
             echo "Deployment successful!"
         }
         failure {
-            echo " Pipeline failed!"
+            echo "Pipeline failed!"
         }
     }
 }
