@@ -5,7 +5,7 @@ pipeline {
         IMAGE = "jaiswathi1234/portfolio-app"
         CRED = "Dcokerhub"
         EC2_USER = "ubuntu"
-        EC2_IP = "13.200.210.146"
+        EC2_IP = "43.205.121.208"
     }
 
     stages {
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: 'ec2-key', keyFileVariable: 'KEY_FILE', usernameVariable: 'SSH_USER')]) {
                     sh '''
-                    ssh -i $KEY_FILE -o StrictHostKeyChecking=no $SSH_USER@13.200.210.146 "
+                    ssh -i $KEY_FILE -o StrictHostKeyChecking=no $SSH_USER@43.205.121.208"
                         docker pull jaiswathi1234/portfolio-app &&
                         docker stop portfolio || true &&
                         docker rm portfolio || true &&
